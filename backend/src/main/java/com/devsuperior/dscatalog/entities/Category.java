@@ -2,8 +2,6 @@ package com.devsuperior.dscatalog.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
