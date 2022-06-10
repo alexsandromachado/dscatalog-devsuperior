@@ -9,7 +9,6 @@ const Navbar = () => {
           <h4>DS Catalog</h4>
         </a>
 
-
         <button
           className="navbar-toggler"
           type="button"
