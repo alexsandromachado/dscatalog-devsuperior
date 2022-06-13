@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column-reverse;
   border-radius: 20px;
+  background-color: white;
 }
 
 .home-content-container {
@@ -57,6 +58,11 @@
 
   .home-image-container svg {
     width: 506px;
+  }
+
+  .home-content-container button {
+    width: 506px;
+    
   }
 }
 
