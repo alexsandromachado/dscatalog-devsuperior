@@ -1,12 +1,15 @@
 import { ReactComponent as MainImage } from 'assets/images/main-image.svg';
 import ButtonIcon from 'components/ButtonIcon';
 import { Link } from 'react-router-dom';
+import { getTokenData, isAuthenticated } from 'util/requests';
 
 import './styles.css';
 
 const Home = () => {
   return (
     <div className="home-container">
+      <h1>{isAuthenticated() ? 'Autenticado' : 'Não autenticado'}</h1>
+
       <div className="base-card home-card">
         <div className="home-content-container">
           <div>
@@ -17,7 +20,7 @@ const Home = () => {
             </p>
           </div>
           <Link to="/products">
-            <ButtonIcon text="Inicie agora a sua busca"/>
+            <ButtonIcon text="Inicie agora a sua busca" />
           </Link>
         </div>
         <div className="home-image-container">
