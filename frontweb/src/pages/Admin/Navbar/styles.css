@@ -59,6 +59,33 @@ ul {
     background-color: #ffffff;
     border-bottom: 1px solid #e1e1e1;
     justify-content: flex-start;
-    padding-left: 40px;
+    padding-left: 15px;
+  }
+}
+
+.nav-login-logout {
+  display: none;
+}
+
+.nav-username {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav-login-logout {
+    display: unset;
+    color: #ffffff;
+    margin-right: 15px;
+  }
+}
+
+@media (min-width: 992px) {
+  .nav-login-logout {
+    margin-right: 40px;
+  }
+
+  .nav-username {
+    display: unset;
+    margin-right: 20px;
   }
 }
