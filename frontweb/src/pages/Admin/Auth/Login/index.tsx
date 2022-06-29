@@ -1,10 +1,11 @@
 import { Link, useHistory } from 'react-router-dom';
 import ButtonIcon from 'components/ButtonIcon';
 import { useForm } from 'react-hook-form';
-import { requestBackendLogin, saveAuthData } from 'util/requests';
-import { useState } from 'react';
+import { getTokenData, requestBackendLogin, saveAuthData } from 'util/requests';
+import { useContext, useState } from 'react';
 
 import './styles.css';
+import { AuthContext } from 'AuthContext';
 
 type FormData = {
   username: string;
@@ -12,6 +13,8 @@ type FormData = {
 };
 
 const Login = () => {
+  const { setAuthContextData } = useContext(AuthContext);
+
   const [hasError, setHasError] = useState(false);
 
   const {
@@ -27,6 +30,10 @@ const Login = () => {
       .then((response) => {
         saveAuthData(response.data);
         setHasError(false);
+        setAuthContextData({
+          authenticated: true,
+          tokenData: getTokenData(),
+        });
         history.push('/admin');
       })
       .catch((error) => {
@@ -52,7 +59,9 @@ const Login = () => {
               },
             })}
             type="text"
-            className={`form-control base-input ${errors.username ? 'is-invalid' : ''}`}
+            className={`form-control base-input ${
+              errors.username ? 'is-invalid' : ''
+            }`}
             placeholder="Email"
             name="username"
           />
@@ -66,7 +75,9 @@ const Login = () => {
               required: 'Campo obrigatório',
             })}
             type="password"
-            className={`form-control base-input ${errors.password ? 'is-invalid' : ''}`}
+            className={`form-control base-input ${
+              errors.password ? 'is-invalid' : ''
+            }`}
             placeholder="Password"
             name="password"
           />
