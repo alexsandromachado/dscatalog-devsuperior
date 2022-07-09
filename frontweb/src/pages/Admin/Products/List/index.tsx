@@ -14,7 +14,6 @@ const List = () => {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: '/products',
-      headers: { 'Content-Type': 'application/json' },
       params: {
         page: 0,
         size: 50,
