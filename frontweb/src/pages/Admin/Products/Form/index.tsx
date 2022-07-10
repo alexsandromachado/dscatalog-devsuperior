@@ -5,13 +5,12 @@ import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
 import Select from 'react-select';
 import './styles.css';
+import { useEffect, useState } from 'react';
+import { Category } from 'types/category';
+import { setConstantValue } from 'typescript';
 
 const Form = () => {
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
+  const [selectCategories, setSelectCategories] = useState<Category[]>([]);
 
   const history = useHistory();
 
@@ -20,6 +19,26 @@ const Form = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Product>();
+
+  useEffect(() => {
+    requestBackend({ url: '/categories' }).then((response) => {
+      setSelectCategories(response.data.content);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   if (isEditing){
+  //     requestBackend({url: `/products/${productId}`}).then((response) => {
+  //       const product = response.data as Product;
+
+  //       setValue('name', product.name);
+  //       setValue('name', product.price);
+  //       setValue('name', product.description);
+  //       setValue('name', product.imgUrl);
+  //       setValue('name', product.categories);
+  //     });
+  //   }
+  // }, [isEditing, productId, setValue]);
 
   const onSubmit = (formData: Product) => {
     const data = {
@@ -70,8 +89,12 @@ const Form = () => {
               </div>
 
               <div className="product-bottom-30">
-                <Select options={options} 
-                classNamePrefix="product-crud-select"
+                <Select
+                  options={selectCategories}
+                  classNamePrefix="product-crud-select"
+                  isMulti
+                  getOptionLabel={(category: Category) => category.name}
+                  getOptionValue={(category: Category) => String(category.id)}
                 />
               </div>
 
