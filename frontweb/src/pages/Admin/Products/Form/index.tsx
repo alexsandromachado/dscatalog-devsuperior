@@ -3,9 +3,16 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
+import Select from 'react-select';
 import './styles.css';
 
 const Form = () => {
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+  ];
+
   const history = useHistory();
 
   const {
@@ -15,9 +22,12 @@ const Form = () => {
   } = useForm<Product>();
 
   const onSubmit = (formData: Product) => {
-
-    const data = { ...formData, imgUrl: "https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/2-big.jpg",
-     categories: [{id: 1, name: ''}]}
+    const data = {
+      ...formData,
+      imgUrl:
+        'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/2-big.jpg',
+      categories: [{ id: 1, name: '' }],
+    };
 
     const config: AxiosRequestConfig = {
       method: 'POST',
@@ -27,12 +37,12 @@ const Form = () => {
     };
 
     requestBackend(config).then(() => {
-      history.push("/admin/products");
+      history.push('/admin/products');
     });
   };
 
   const handleCancel = () => {
-    history.push("/admin/products");
+    history.push('/admin/products');
   };
 
   return (
@@ -58,6 +68,13 @@ const Form = () => {
                   {errors.name?.message}
                 </div>
               </div>
+
+              <div className="product-bottom-30">
+                <Select options={options} 
+                classNamePrefix="product-crud-select"
+                />
+              </div>
+
               <div className="product-bottom-30">
                 <input
                   {...register('price', {
