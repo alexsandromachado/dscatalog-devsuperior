@@ -6,6 +6,7 @@ import { requestBackend } from 'util/requests';
 import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { Category } from 'types/category';
+import CurrencyInput from 'react-currency-input-field';
 import './styles.css';
 
 type UrlParams = {
@@ -50,10 +51,15 @@ const Form = () => {
   }, [isEditing, productId, setValue]);
 
   const onSubmit = (formData: Product) => {
+    const data = {
+      ...formData,
+      price: String(formData.price).replace(',', '.'),
+    };
+
     const config: AxiosRequestConfig = {
       method: isEditing ? 'PUT' : 'POST',
       url: isEditing ? `/products/${productId}` : '/products',
-      data: formData, //quando o nome da variável recebida é igual ao nome do atributo, podemos omití-la
+      data, //quando o nome da variável recebida é igual ao nome do atributo, podemos omití-la
       withCredentials: true,
     };
 
@@ -116,16 +122,21 @@ const Form = () => {
               </div>
 
               <div className="product-bottom-30">
-                <input
-                  {...register('price', {
-                    required: 'Campo obrigatório',
-                  })}
-                  type="text"
-                  className={`form-control base-input ${
-                    errors.name ? 'is-invalid' : ''
-                  }`}
-                  placeholder="Preço"
+                <Controller
                   name="price"
+                  rules={{ required: 'Campo obrigatório' }}
+                  control={control}
+                  render={({ field }) => (
+                    <CurrencyInput
+                      placeholder="preço"
+                      className={`form-control base-input ${
+                        errors.name ? 'is-invalid' : ''
+                      }`}
+                      disableGroupSeparators={true}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    />
+                  )}
                 />
                 <div className="invalid-feedback d-block">
                   {errors.price?.message}
