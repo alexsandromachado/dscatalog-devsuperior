@@ -1,4 +1,4 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Navbar from './Navbar';
 import Users from './Users';
 import PrivateRoute from 'components/PrivateRoute';
