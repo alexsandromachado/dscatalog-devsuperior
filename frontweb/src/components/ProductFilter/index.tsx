@@ -7,19 +7,23 @@ import './styles.css';
 import { useEffect, useState } from 'react';
 import { requestBackend } from 'util/requests';
 
-type ProductFilterData = {
+export type ProductFilterData = {
   name: string;
   category: Category | null;
 };
 
-const ProductFilter = () => {
+type Props = {
+  onSubmitFilter: (data: ProductFilterData) => void;
+};
+
+const ProductFilter = ({ onSubmitFilter }: Props) => {
   const [selectCategories, setSelectCategories] = useState<Category[]>([]);
 
   const { register, handleSubmit, setValue, getValues, control } =
     useForm<ProductFilterData>();
 
   const onSubmit = (formData: ProductFilterData) => {
-    console.log('ENVIOU', formData);
+    onSubmitFilter(formData);
   };
 
   const handleFormClear = () => {
@@ -33,7 +37,7 @@ const ProductFilter = () => {
       name: getValues('name'),
       category: getValues('category'),
     };
-    console.log('ENVIOU', obj);
+    onSubmitFilter(obj);
   };
 
   useEffect(() => {
@@ -69,7 +73,9 @@ const ProductFilter = () => {
                   isClearable
                   placeholder="Categoria"
                   classNamePrefix="product-filter-select"
-                  onChange={(value) => handleChangeCategory(value as Category)}
+                  onChange={(value: Category | null) =>
+                    handleChangeCategory(value as Category)
+                  }
                   getOptionLabel={(category: Category) => category.name}
                   getOptionValue={(category: Category) => String(category.id)}
                 />
